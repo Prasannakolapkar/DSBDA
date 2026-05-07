@@ -1,0 +1,59 @@
+Practical 1
+
+import pandas as pd
+
+url="Student Mental health.csv"
+
+df=pd.read_csv(url)
+
+df
+
+df.head(5)
+
+df.tail(5)
+
+df.shape
+
+df.columns
+
+df.info()
+
+df.describe()
+
+df["Age"]
+
+df[["Choose your gender","What is your CGPA?"]]
+
+df.iloc[0:5]
+
+df.iloc[0:5,0:5]
+
+df.isnull()
+
+from sklearn import preprocessing
+
+df.head()
+
+min_max_scaler=preprocessing.MinMaxScaler()
+
+x=df.iloc[:,:4]
+
+print(x.dtypes)
+
+x = pd.get_dummies(x, drop_first=True)
+x_scaled = min_max_scaler.fit_transform(x)
+
+df_normalized=pd.DataFrame(x_scaled)
+
+df_normalized
+
+df['Choose your gender'].unique()
+
+label_encoder=preprocessing.LabelEncoder()
+
+df['Choose your gender']=label_encoder.fit_transform(df['Choose your gender'])
+
+df['Choose your gender'].unique()
+
+
+

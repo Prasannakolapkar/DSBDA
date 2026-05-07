@@ -1,0 +1,79 @@
+Practical-3
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+df = pd.read_csv("Placement_data_full_class.csv")
+
+df
+
+df.info()
+
+df.info()
+
+df.describe
+
+df.isnull().sum()
+
+df['salary'] = df['salary'].fillna(df['salary'].mean())
+
+df.head()
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['gender'] = le.fit_transform(df['gender'])
+
+df['status'] = le.fit_transform(df['status'])
+
+df['workex'] = le.fit_transform(df['workex'])
+
+df['specialisation'] = le.fit_transform(df['specialisation'])
+df.head()
+
+df.boxplot(column=['ssc_p','hsc_p','degree_p','mba_p'])
+plt.title("Boxplot of Academic Scores")
+plt.show()
+
+z = np.abs(stats.zscore(df['mba_p']))
+df[z > 3]
+
+Q1 = df['hsc_p'].quantile(0.25)
+Q3 = df['hsc_p'].quantile(0.75)
+IQR = Q3 - Q1
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+print("Lower Bound:", lower)
+print("Upper Bound:", upper)
+
+df[(df['hsc_p'] < lower) | (df['hsc_p'] > upper)]
+
+median = df['hsc_p'].median()
+df['hsc_p'] = np.where((df['hsc_p'] < lower) | (df['hsc_p'] > upper),median,df)
+
+df['salary'].hist()
+plt.title("Salary Before Log")
+plt.xlabel("Salary")
+plt.ylabel("Frequency")
+plt.show()
+df['salary'].skew()
+
+np.float64(4.288798850070048)
+
+df['log_salary'] = np.log10(df['salary'])
+df['log_salary'].hist()
+plt.title("Salary After Log")
+plt.xlabel("Log Salary")
+plt.ylabel("Frequency")
+plt.show()
+df['log_salary'].skew()
+
+np.float64(1.9500125921488516)
+
+plt.scatter(df['mba_p'], df['salary'])
+plt.xlabel("MBA Percentage")
+plt.ylabel("Salary")
+plt.title("MBA vs Salary")
+plt.show()
+

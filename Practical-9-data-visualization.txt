@@ -1,0 +1,83 @@
+Practical-9
+
+# Data Cleaning and Visualization using Titanic Dataset
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# -----------------------------------
+# Load Titanic Dataset
+# -----------------------------------
+
+dataset = sns.load_dataset('titanic')
+
+# Display first 5 rows
+print(dataset.head())
+
+# -----------------------------------
+# Dataset Information
+# -----------------------------------
+
+print(dataset.info())
+
+# -----------------------------------
+# Statistical Summary
+# -----------------------------------
+
+print(dataset.describe())
+
+# -----------------------------------
+# Check Missing Values
+# -----------------------------------
+
+print(dataset.isnull())
+
+# Count Total Missing Values
+print(dataset.isnull().sum())
+
+# -----------------------------------
+# Fill Missing Values in Age Column
+# -----------------------------------
+
+dataset['age'] = dataset['age'].fillna(dataset['age'].mean())
+
+# Check Missing Values Again
+print(dataset.isnull().sum())
+
+# -----------------------------------
+# Box Plot Visualization
+# -----------------------------------
+
+sns.boxplot(x='sex', y='age', hue='survived', data=dataset)
+
+plt.title('Age Distribution of Survived and Unsurvived Data')
+plt.xlabel('Sex')
+plt.ylabel('Age')
+
+plt.show()
+
+# -----------------------------------
+# Observations
+# -----------------------------------
+
+print("""
+Observations:
+
+1. Female passengers show a higher survival rate compared to male passengers.
+
+2. Male non-survivors dominate the middle-age range.
+
+3. Male survivors are generally younger.
+
+4. Children have better survival chances across both sexes.
+
+5. The median age of male survivors is lower than male non-survivors.
+
+6. Female survivors display a wider age spread.
+
+7. Outliers include very old passengers in both survived and non-survived groups.
+
+8. Survival patterns differ significantly between male and female passengers.
+""")

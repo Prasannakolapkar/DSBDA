@@ -1,0 +1,178 @@
+Practical-7
+
+
+# Download required datasets
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('punkt_tab')
+nltk.download('averaged_perceptron_tagger_eng')
+
+# -----------------------------
+# Sentence Tokenization
+# -----------------------------
+
+text = "Tokenization is the first step in text analytics. The process of breaking down a text paragraph into smaller chunks such as words or sentences is called Tokenization."
+
+from nltk.tokenize import sent_tokenize
+
+sentences = sent_tokenize(text)
+print("Sentence Tokenization:", sentences)
+
+# -----------------------------
+# Word Tokenization
+# -----------------------------
+
+from nltk.tokenize import word_tokenize
+
+words = word_tokenize(text)
+print("Word Tokenization:", words)
+
+# -----------------------------
+# Stop Words Removal
+# -----------------------------
+
+import re
+from nltk.corpus import stopwords
+
+stop_words = set(stopwords.words("english"))
+
+text2 = "How to remove stop words with NLTK library in Python?"
+text2 = re.sub('[^a-zA-Z]', ' ', text2)
+
+tokens = word_tokenize(text2.lower())
+
+filtered_text = []
+for w in tokens:
+    if w not in stop_words:
+        filtered_text.append(w)
+
+print("Tokens:", tokens)
+print("Filtered (Stopwords Removed):", filtered_text)
+
+# -----------------------------
+# Stemming
+# -----------------------------
+
+from nltk.stem import PorterStemmer
+
+ps = PorterStemmer()
+words = ["wait", "waiting", "waited", "waits"]
+
+for w in words:
+    print(w, "->", ps.stem(w))
+
+# -----------------------------
+# Lemmatization
+# -----------------------------
+
+from nltk.stem import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+
+text3 = "studies studying cries cry"
+tokens = word_tokenize(text3)
+
+for w in tokens:
+    print("Lemma for", w, "is", lemmatizer.lemmatize(w))
+
+# -----------------------------
+# POS Tagging
+# -----------------------------
+
+from nltk.tokenize import word_tokenize
+
+data = "The pink sweater fit her perfectly"
+words = word_tokenize(data)
+
+for word in words:
+    print(word, "->", nltk.pos_tag([word]))
+
+# -----------------------------
+# TF-IDF Implementation
+# -----------------------------
+
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+import math
+
+documentA = "Jupiter is the largest planet"
+documentB = "Mars is the fourth planet from the sun"
+
+bagOfWordsA = documentA.split()
+bagOfWordsB = documentB.split()
+
+uniqueWords = set(bagOfWordsA).union(set(bagOfWordsB))
+
+numOfWordsA = dict.fromkeys(uniqueWords, 0)
+for word in bagOfWordsA:
+    numOfWordsA[word] += 1
+
+numOfWordsB = dict.fromkeys(uniqueWords, 0)
+for word in bagOfWordsB:
+    numOfWordsB[word] += 1
+
+# -----------------------------
+# Compute TF
+# -----------------------------
+
+def computeTF(wordDict, bagOfWords):
+    tfDict = {}
+    bagCount = len(bagOfWords)
+
+    for word, count in wordDict.items():
+        tfDict[word] = count / float(bagCount)
+
+    return tfDict
+
+
+tfA = computeTF(numOfWordsA, bagOfWordsA)
+tfB = computeTF(numOfWordsB, bagOfWordsB)
+
+# -----------------------------
+# Compute IDF
+# -----------------------------
+
+def computeIDF(documents):
+    N = len(documents)
+
+    idfDict = dict.fromkeys(documents[0].keys(), 0)
+
+    for document in documents:
+        for word, val in document.items():
+            if val > 0:
+                idfDict[word] += 1
+
+    for word, val in idfDict.items():
+        idfDict[word] = math.log(N / float(val))
+
+    return idfDict
+
+
+idfs = computeIDF([numOfWordsA, numOfWordsB])
+
+# -----------------------------
+# Compute TF-IDF
+# -----------------------------
+
+def computeTFIDF(tfDict, idfs):
+    tfidf = {}
+
+    for word, val in tfDict.items():
+        tfidf[word] = val * idfs[word]
+
+    return tfidf
+
+
+tfidfA = computeTFIDF(tfA, idfs)
+tfidfB = computeTFIDF(tfB, idfs)
+
+# -----------------------------
+# Display Result
+# -----------------------------
+
+df = pd.DataFrame([tfidfA, tfidfB])
+print(df)
+```
+

@@ -1,0 +1,175 @@
+Practical-8
+
+# Data Visualization using Seaborn and Matplotlib
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load Titanic Dataset
+dataset = sns.load_dataset('titanic')
+
+# Display first 5 rows
+print(dataset.head())
+
+# -----------------------------------
+# Histogram Plot with KDE
+# -----------------------------------
+
+sns.histplot(x=dataset['age'], bins=10, kde=True)
+plt.title("Histogram of Age with KDE")
+plt.show()
+
+# -----------------------------------
+# Histogram Plot without KDE
+# -----------------------------------
+
+sns.histplot(x=dataset['age'], bins=10, kde=False)
+plt.title("Histogram of Age")
+plt.show()
+
+# -----------------------------------
+# Joint Plot - Scatter
+# -----------------------------------
+
+sns.jointplot(x=dataset['age'], y=dataset['fare'], kind='scatter')
+plt.show()
+
+# -----------------------------------
+# Joint Plot - Hex
+# -----------------------------------
+
+sns.jointplot(x=dataset['age'], y=dataset['fare'], kind='hex')
+plt.show()
+
+# -----------------------------------
+# Rug Plot
+# -----------------------------------
+
+sns.rugplot(dataset['fare'])
+plt.title("Rug Plot of Fare")
+plt.show()
+
+# -----------------------------------
+# Bar Plot
+# -----------------------------------
+
+sns.barplot(x='sex', y='age', data=dataset)
+plt.title("Bar Plot of Age by Gender")
+plt.show()
+
+# -----------------------------------
+# Bar Plot with Standard Deviation
+# -----------------------------------
+
+sns.barplot(x='sex', y='age', data=dataset, estimator=np.std)
+plt.title("Bar Plot with Standard Deviation")
+plt.show()
+
+# -----------------------------------
+# Count Plot
+# -----------------------------------
+
+sns.countplot(x='sex', data=dataset)
+plt.title("Count Plot of Gender")
+plt.show()
+
+# -----------------------------------
+# Box Plot
+# -----------------------------------
+
+sns.boxplot(x='sex', y='age', data=dataset)
+plt.title("Box Plot of Age by Gender")
+plt.show()
+
+# -----------------------------------
+# Box Plot with Survival Status
+# -----------------------------------
+
+sns.boxplot(x='sex', y='age', data=dataset, hue='survived')
+plt.title("Box Plot with Survival")
+plt.show()
+
+# -----------------------------------
+# Violin Plot
+# -----------------------------------
+
+sns.violinplot(x='sex', y='age', data=dataset)
+plt.title("Violin Plot")
+plt.show()
+
+# -----------------------------------
+# Violin Plot with Survival
+# -----------------------------------
+
+sns.violinplot(x='sex', y='age', data=dataset, hue='survived')
+plt.title("Violin Plot with Survival")
+plt.show()
+
+# -----------------------------------
+# Strip Plot without Jitter
+# -----------------------------------
+
+sns.stripplot(x='sex', y='age', data=dataset, jitter=False)
+plt.title("Strip Plot without Jitter")
+plt.show()
+
+# -----------------------------------
+# Strip Plot with Jitter
+# -----------------------------------
+
+sns.stripplot(x='sex', y='age', data=dataset, jitter=True)
+plt.title("Strip Plot with Jitter")
+plt.show()
+
+# -----------------------------------
+# Strip Plot with Survival
+# -----------------------------------
+
+sns.stripplot(x='sex', y='age', data=dataset,
+              jitter=True, hue='survived')
+plt.title("Strip Plot with Survival")
+plt.show()
+
+# -----------------------------------
+# Swarm Plot
+# -----------------------------------
+
+sns.swarmplot(x='sex', y='age', data=dataset)
+plt.title("Swarm Plot")
+plt.show()
+
+# -----------------------------------
+# Swarm Plot with Survival
+# -----------------------------------
+
+sns.swarmplot(x='sex', y='age', data=dataset, hue='survived')
+plt.title("Swarm Plot with Survival")
+plt.show()
+
+# -----------------------------------
+# Correlation Heatmap
+# -----------------------------------
+
+corr = dataset.corr(numeric_only=True)
+
+sns.heatmap(corr, annot=True, cmap="Blues")
+plt.title("Correlation Heatmap")
+plt.show()
+
+# -----------------------------------
+# Heatmap without Annotation
+# -----------------------------------
+
+sns.heatmap(corr, cmap="Blues")
+plt.title("Heatmap without Annotation")
+plt.show()
+
+# -----------------------------------
+# Histogram of Fare
+# -----------------------------------
+
+sns.histplot(dataset['fare'], kde=False, bins=10)
+plt.title("Histogram of Fare")
+plt.show()
